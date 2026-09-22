@@ -1,0 +1,16 @@
+version: "2"
+sql:
+-  engine: mysql
+   schema: "sql/migrations"
+   queries: "sql/queries"
+  #  user: root
+  #  password: root
+  #  host: localhost
+  #  port: 3306
+   gen:
+     go:
+       package: "db"
+       out: "internal/db"
+       overrides:
+         - db_type: "decimal"
+           go_type: "float64"
