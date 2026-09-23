@@ -2,6 +2,18 @@
 
 Ao avaliador do desafio, esse repositorio serve tambem serve como respositorio de aprendizado entao terao mais informacoes que o necessario pra avaliacao
 
+## Configuracao (.env)
+
+As variaveis de ambiente da aplicacao sao carregadas pelo `configs.LoadConfig` (`configs/config.go`) via viper, a partir do arquivo `cmd/ordersystem/.env`. Esse arquivo nao vai versionado (esta no `.gitignore`), entao antes de rodar o projeto:
+
+```bash
+cp cmd/ordersystem/.env.example cmd/ordersystem/.env
+```
+
+O `.env.example` documenta todas as chaves esperadas (`DB_*`, `WEB_SERVER_PORT`, `GRPC_SERVER_PORT`, `GRAPHQL_SERVER_PORT`, `RABBITMQ_*`), que devem bater com as tags `mapstructure` da struct `conf` em `configs/config.go`. Os valores default do exemplo apontam para `localhost` (uso local, ex.: `make run`).
+
+Se rodar via `docker-compose up -d` / `make docker`, o arquivo `cmd/ordersystem/.env` ainda precisa existir (o `Dockerfile` faz `COPY` dele pra dentro da imagem e `LoadConfig` da panic se nao encontrar o arquivo), mas os valores efetivos usados pelo container `app` sao os definidos em `docker-compose.yaml` (ex.: `DB_HOST=mysql`, `RABBITMQ_HOST=rabbitmq`), que sobrescrevem o `.env` via variaveis de ambiente do container.
+
 Pra voce basta apenas rodar o comando pra subir o docker compose
 
 ```bash

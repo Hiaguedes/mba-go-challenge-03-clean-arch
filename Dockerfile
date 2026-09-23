@@ -15,6 +15,9 @@ RUN apk add --no-cache ca-certificates
 
 WORKDIR /app
 
+# cmd/ordersystem/.env precisa existir antes do build (nao vai versionado, veja
+# cmd/ordersystem/.env.example e o ReadMe). configs.LoadConfig (configs/config.go)
+# le esse arquivo via viper e da panic se ele nao existir.
 COPY --from=builder /app/bin/ordersystem ./ordersystem
 COPY --from=builder /app/cmd/ordersystem/.env ./cmd/ordersystem/.env
 
